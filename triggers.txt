@@ -1,0 +1,128 @@
+create table Audit_table (
+Server_User_Name varchar(max),
+[Date] datetime ,
+Note varchar(max)
+)
+
+
+create TRIGGER Trg_get_student_iserted
+ON student  
+AFTER INSERT 
+AS
+BEGIN
+    INSERT INTO Audit_table
+    SELECT
+        SYSTEM_USER,
+        GETDATE(),
+        CONCAT(SYSTEM_USER, ' Insert New Row with ID=', CAST(st_id AS VARCHAR(5)) + ' of student who inserted')
+    FROM inserted
+END
+
+insert into student (st_name,Gender)
+values ('ahmedshaban','m')
+select * from Audit_table
+--------------------------------------------------------------------------------------------------------------------------------
+create TRIGGER Trg_get_student_updated
+ON student  
+AFTER update 
+AS
+BEGIN
+    INSERT INTO Audit_table
+    SELECT
+        SYSTEM_USER,
+        GETDATE(),
+        CONCAT(SYSTEM_USER, ' updated New Row with ID=', CAST(st_id AS VARCHAR(5)) + ' id of student who updated')
+    FROM inserted
+END
+-------------------------------------------------------------------------------------------------------------------------------
+create TRIGGER Trg_get_student_deleted
+ON student  
+AFTER delete 
+AS
+BEGIN
+    INSERT INTO Audit_table
+    SELECT
+        SYSTEM_USER,
+        GETDATE(),
+        CONCAT(SYSTEM_USER, ' deleted New Row with ID=', CAST(st_id AS VARCHAR(5)) + ' id of student who deleted')
+    FROM deleted
+END
+
+delete from student
+where St_id = 7
+
+select * from Audit_table
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+alter trigger insert_student_grade_after_check
+on answers
+after insert
+as
+begin
+    declare @st_id int, @c_id int;
+    declare @grade int;
+
+    declare update_cursor cursor 
+		for select ins.st_id, ins.c_id
+		from inserted ins;
+
+    open update_cursor;
+
+    fetch next from update_cursor into @st_id, @c_id;
+
+    while @@fetch_status = 0
+    begin
+        update st_course
+        set grade = cd.total_degree
+        from st_course st ,calaculate_degrees() cd 
+		where st.st_id = cd.st_id and st.c_id = cd.c_id
+
+        fetch next from update_cursor into @st_id, @c_id;
+    end
+
+    close update_cursor;
+    deallocate update_cursor;
+
+
+	declare insert_cursor cursor 
+    for select ins.st_id, ins.c_id
+    from inserted ins;
+
+	open insert_cursor;
+
+	fetch next from insert_cursor into @st_id, @c_id;
+
+	while @@fetch_status = 0
+	begin
+		if not exists (
+			select st.st_id
+			from st_course st
+			where st.st_id = @st_id and st.c_id = @c_id
+		)
+		begin
+			insert into st_course (st_id, c_id, grade)
+			select cd.st_id, cd.c_id, cd.total_degree
+			from calaculate_degrees() cd
+			where cd.st_id = @st_id and cd.c_id = @c_id;
+		end
+
+		fetch next from insert_cursor into @st_id, @c_id;
+	end
+
+	close insert_cursor;
+	deallocate insert_cursor;
+
+	truncate table answers
+
+end;
+
+insert into answers
+values (25,11,24,'d'),(26,11,24,'f'),(27,11,24,'a'),(28,11,24,'b'),(22,11,24,'a'),(23,11,24,'b'),
+	   (25,8,24,'d'),(26,8,24,'c'),(27,8,24,'a'),(28,8,24,''),(22,7,24,'a'),(23,7,24,'b'),(25,7,24,'d'),(26,6,24,'c'),
+	   (25,12,24,'d'),(26,12,24,'b'),(27,12,24,'a'),(28,9,24,'a'),(22,15,24,'a'),(23,15,24,'b')
+select * from St_course
+where  C_id = 24
+
+delete from St_course
+where st_id = 8 and C_id = 24
+--------------------------------------------------------------------------------------------------
