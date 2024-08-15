@@ -1,0 +1,118 @@
+insert into answers
+values (25,11,24,'d'),(26,11,24,'f'),(27,11,24,'a'),(28,11,24,'b'),(22,11,24,'a'),(23,11,24,'b'),
+	   (25,8,24,'d'),(26,8,24,'c'),(27,8,24,'a'),(28,8,24,''),(22,7,24,'a'),(23,7,24,'b'),(25,7,24,'d'),(26,6,24,'c'),
+	   (25,12,24,'d'),(26,12,24,'b'),(27,12,24,'a'),(28,9,24,'a'),(22,15,24,'a'),(23,15,24,'b')
+ 
+insert into Track( Track_name)
+values ('BI'),('open source'),('web development'),('cloud'),('Cyber Security'),
+('GIS'),('Java Enterprise'),('Data Science'),('Embedded'),('SD')
+
+insert into Branch (Bran_city)
+values ('Alex'),('cairo'),('mansoura'),('giza'),('bensouif'),('sohag'),('Minia'),('smart'),('ismailia')
+insert into Department(dept_name)
+values ('MM'),('E-learning'),('JAVA'),('Network'),('Unix'),('Multimedia'),('Data')
+
+
+insert into Training_manager(mgr_name,bran_id)
+values 
+('mohamed',3),('ibrahim',4),('ali',5),('hossam',6),('khalid',9),('mahmoud',7),('rana',8),('lamiaa',10),('nadia',11)
+insert into Intake (Intake_num)
+values (5),(3),(6),(1),(2),(4),(7),(8),(9),(10)
+
+
+insert into student (St_name,Gender	,st_Address,St_Email,St_phone,St_age,Track_id)
+
+
+values ('ali','f','cairo','ali@gmail.com',0125254,21,8),
+ ('hossam','f','bensuif','hossam@gmail.com',0125254,21,8),
+ ('OMAR','f','luxor','omar@gmail.com',0125264,21,9),
+ ('khalid','f','cairo','khalid@gmail.com',0125274,21,10),
+ ('mamhmoud','f','ismalia','mahmoud@gmail.com',0125224,21,11),
+ ('shimaa','m','tanta','shimaa@gmail.com',0125254,21,12),
+ ('mai','m','aswan','ali@gmail.com',0124254,21,13),
+ ('ola','m','giza','ola@gmail.com',0125354,21,14),
+ ('riham','m','mansoura','riham@gmail.com',0125842,21,15),
+ ('mostafa','f','alex','mostafa@gmail.com',0125252,21,16)
+
+ insert into Instructor (Ins_name	,Gender	,ins_address,Ins_Email,ins_age,Ins_phone)
+ values 
+ ('farouk','f','cairo','farouk@gmail.com',29,01125923),
+ ('hossam','f','alex','hossam@gmail.com',29,01125923),
+  ('omar','f','tanta','omar@gmail.com',30,01125923),
+   ('mahmoud','f','cairo','mahmoud@gmail.com',35,01125923),
+    ('rana','m','luxor','rana@gmail.com',40,01125923),
+	 ('yasser','f','minia','yasser@gmail.com',26,01125923),
+	  ('ibrahim','f','minia','ibrahim@gmail.com',29,01125923),
+	   ('hassan','f','qena','hossam@gmail.com',31,01125923),
+	    ('moamen','f','bensuif','moamen@gmail.com',27,01125923)
+
+
+insert into Exam([type],Start_time	,End_time	,Duration	,Total_degree)
+values('normal','10:00','12:00',2,40),
+('normal','10:00','12:00',2,40),
+('normal','10:00','12:00',2,40),
+('normal','10:00','12:00',2,40),
+('corrective','10:00','12:00',2,30),
+('corrective','10:00','12:00',2,30),
+('corrective','10:00','12:00',2,30),
+('corrective','10:00','12:00',2,30),
+('corrective','10:00','12:00',2,30)
+insert into Course (C_name,	[description],Max_degree,	Min_degree,Dept_id)
+values ('python','l',100,60,3),
+('C++','m',100,60,5),
+('java','s',100,60,4),
+('programming','q',100,60,9),
+('statisics','b',100,60,6),
+('sql','n',100,60,6),
+('xml','w',100,60,8) 
+
+insert into Question_pool ([type]	,Question	,Corr_ans	,Q_degree,	C_id)
+values('choose','what is your hobbies?', 'a',5,19),
+('choose','do you like music?', 'b',4,19),
+('choose','how are you?','a',4,25),
+('choose','what is your nationalitiy?', 'd',5,22),
+('choose','what is your dream?','c',5,23),
+('true&false','what is your favourite market?', 'a',6,24),
+('true&false','Do you like python?', 'b',4,22),
+('true&false','Do you have a license?','b',3,23),
+('true&false','can you play football ?','c',5,20),
+('true&false','can you play basketball?','a',3,19),
+('choose','what is yourr hobbies?', 'a',5,20),
+('choose','do you likee music?', 'b',4,20),
+('choose','how aree you?','a',4,23),
+('choose','what is yourr nationalitiy?', 'd',5,25),
+('choose','what is yourr dream?','c',5,22),
+('true&false','what is yourr favourite market?', 'a',6,19),
+('true&false','Do you likee python?', 'b',4,24),
+('true&false','Do you havee a license?','b',3,21),
+('true&false','can you playy football ?','c',5,20),
+('true&false','can you playy basketball?','a',3,20)
+
+insert  into St_course(st_id,C_id)
+values(6,19),(5,23),(7,25),(8,21),(9,23),(14,20),(12,22),(10,19),(11,24)
+
+
+insert into Ins_course
+values(3,25),(6,20),(4,21),(5,24),(7,22),(8,23),(10,23),(9,19)
+
+insert into Exam_Question (Exam_id,Q_ID)
+values (14,22),(15,23),(16,24),(17,25),(18,26),(19,27),(20,28),(21,28),(22,29),
+(14,30),(15,31),(16,32),(17,33),(18,34),(19,35),(20,36),(21,37),(22,38),(14,39),(15,40),(16,41)
+
+insert into Branch_track(Bran_ID,Track_ID)
+values (3,8),(4,9),(5,10),(6,11),(7,12),(8,13),(9,14),(10,15),(11,16)
+
+insert into Branch_Intake(Bran_ID,Intake_ID)
+values (3,10),(4,3),(5,4),(6,5),(7,6),(8,7),(9,8),(10,9),(11,12)
+
+insert into Branch_Dept(Bran_ID,Dept_ID)
+values (3,5),(4,3),(5,4),(6,6),(7,9),(10,8),(8,7)
+
+insert into Track_Course (Track_ID,C_ID)
+ values(8,20),(9,21),(10,19),(11,25),(12,22),(13,23),(14,24)
+
+
+insert into Pick_Exam (ID,EXam_ID,C_ID,St_ID,Ins_ID)
+values (1,14,19,5,3),
+(2,15,22,6,4),
+(3,16,23,7,5)
