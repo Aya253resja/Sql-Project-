@@ -1,0 +1,175 @@
+create Examination_system_iti
+
+
+
+use Examination_system_iti
+create table answers (
+Q_id int,
+St_id int,
+C_id int,
+answer nvarchar(max),
+foreign key (Q_id) references question_pool(Q_id),
+foreign key (St_id) references student(St_id),
+foreign key (C_id) references course(C_id)
+)
+
+create table Department ( 
+dept_id int primary key identity(1,1), 
+dept_name nvarchar (20) 
+)
+
+
+ create table Intake(  
+ Intake_id int primary key identity(1,1) ,
+ Intake_num int
+ )
+
+
+create table Track (
+Track_id int primary key identity(1,1),
+Track_name nvarchar(20)
+) 
+
+ create table Branch ( 
+ Bran_id int primary key identity(1,1) ,
+ Bran_city nvarchar(30)
+ )
+
+ Create table Training_manager( 
+ mgr_id int primary key identity(1,1),
+ mgr_name nvarchar(30) ,
+ Bran_id int ,
+foreign key (Bran_id) references Branch(Bran_id)
+)
+
+ create table Student (
+ St_id int primary key identity(1,1) ,
+ St_name nvarchar(30),
+ Gender varchar (1) check (Gender='F' OR Gender='M'),
+ St_address nvarchar(30),
+ St_Email nvarchar (30),
+ St_age int ,
+ St_phone nvarchar (11),
+ Track_id int ,
+ foreign key (Track_id) references Track(Track_id)
+ 
+ )
+ 
+ 
+ create table Instructor (
+ Ins_id int primary key identity(1,1) ,
+ Ins_name nvarchar(30),
+ Gender varchar (1)  check (Gender='F' OR Gender='M') ,
+ Ins_address nvarchar(30),
+ Ins_Email nvarchar (30),
+ Ins_age int ,
+ Ins_phone nvarchar (11),
+ )
+
+
+------------------------------------------------------------------
+
+create table Course (
+C_id int primary key identity(1,1),
+C_name nvarchar(30) unique not null,
+[description] nvarchar(max),
+max_degree int ,
+min_degree int ,
+dept_id int ,
+foreign key (dept_id) REFERENCES Department(dept_id)
+)
+
+create table Exam (
+Exam_id int primary key identity(1,1) ,
+[type] nvarchar(20) not null,
+start_time time not null,
+end_time time not null,
+duration int not null,
+C_id int  ,
+FOREIGN KEY (C_id) REFERENCES Course(C_id),
+total_degree int 
+)
+--CHECK (total_degree <= (SELECT max_degree FROM Course WHERE C_id = C_id))
+
+
+create table Question_pool (
+Q_id int primary key identity(1,1),
+[type] nvarchar(20) not null,
+question nvarchar(max) not null,
+Corr_ans nvarchar(max) not null,
+Q_degree int not null,
+C_id int ,
+FOREIGN KEY (C_id) REFERENCES Course(C_id)
+)
+
+create table St_course (
+st_id int,
+C_id int ,
+grade int ,
+FOREIGN KEY (st_id) REFERENCES Student(st_id),
+FOREIGN KEY (C_id) REFERENCES Course(C_id),
+primary key (st_id , C_id)
+)
+
+create table Ins_course (
+Ins_id int not null,
+C_id int not null,
+FOREIGN KEY (Ins_id) REFERENCES Instructor(Ins_id),
+FOREIGN KEY (C_id) REFERENCES Course(C_id),
+primary key (Ins_id , C_id)
+)
+
+-------------------------
+create table Exam_Question(
+Exam_id int ,
+Q_ID int ,
+primary key (Exam_id,Q_ID),
+Foreign key (Q_ID) references Question_pool(Q_id),
+foreign key (Exam_id) references Exam (Exam_id)
+)
+
+
+create table Branch_track(
+Bran_ID int,
+Track_ID int ,
+primary key(Bran_ID,Track_ID),
+foreign key (Bran_ID) references  Branch (Bran_ID),
+foreign key (Track_ID) references Track (Track_ID)
+)
+
+create table Branch_Intake(
+Bran_ID int ,
+Intake_ID int 
+foreign key (Intake_ID) references  Intake (Intake_ID),
+foreign key (Bran_ID) references  Branch (Bran_ID),
+primary key (Bran_ID , Intake_ID)
+)
+
+create table Branch_Dept(
+Bran_ID int, 
+Dept_ID int ,
+primary key (Bran_ID,Dept_ID),
+foreign key (Dept_ID) references Department (Dept_ID),
+foreign key (Bran_ID) references  Branch (Bran_ID)
+)
+
+
+Create table  Track_Course(
+Track_ID int,
+C_ID int, 
+primary key (Track_ID ,C_ID) ,
+foreign key (Track_ID) references  track (Track_ID),
+foreign key (C_ID) references Course (C_ID)
+)
+
+create table Pick_Exam(
+ID int primary key,
+EXam_ID int,
+C_ID int,
+St_ID int,
+Ins_ID int,
+foreign key (EXam_ID) references Exam (EXam_ID),
+foreign key (C_ID) references Course (C_ID),
+foreign key (St_ID) references Student (St_ID),
+foreign key (Ins_ID) references Instructor(Ins_ID)
+)
